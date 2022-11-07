@@ -14,7 +14,7 @@ class MyButton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.05,
-      width: size.width * 0.32,
+      width: size.width * 0.35,
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(50)),
       child: Row(
@@ -22,8 +22,13 @@ class MyButton extends StatelessWidget {
         children: [
           Icon(
             icon,
+            color: Colors.white,
+            size: 18,
           ),
-          Text(title),
+          Text(
+            title,
+            style: TextStyle(color: Colors.white),
+          ),
         ],
       ),
     );

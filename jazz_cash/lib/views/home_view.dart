@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:jazz_cash/components/persistense_app_bar.dart';
 import 'package:jazz_cash/components/upper_appbar.dart';
+import 'package:jazz_cash/utils/strings.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,12 +13,25 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         body: CustomScrollView(
       slivers: [
-        SliverPersistentHeader(
-            pinned: true,
-            delegate: PersistenseAppBar(maxExtent: 250, minExtent: 100)),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-                ((context, index) => Text('hi $index'))))
+        SliverAppBar(
+          backgroundColor: Colors.black.withOpacity(0.9),
+          pinned: true,
+          title: const Text(Strings.jazzCash),
+          actions: const [
+            Icon(Icons.help_outline_outlined),
+            SizedBox(
+              width: 8,
+            ),
+            Icon(Icons.notifications)
+          ],
+          bottom: const PreferredSize(
+              preferredSize: Size(double.infinity, 10),
+              child: Divider(
+                color: Colors.white,
+              )),
+        ),
+        SliverPersistentHeader(pinned: true, delegate: PersistenseAppBar(maxExtent: 250, minExtent: 100)),
+        SliverList(delegate: SliverChildBuilderDelegate(((context, index) => Text('hi $index'))))
       ],
     )
         // NestedScrollView(

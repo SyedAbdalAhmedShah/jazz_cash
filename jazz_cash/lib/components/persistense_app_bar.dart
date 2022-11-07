@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:jazz_cash/components/my_button.dart';
 
 class PersistenseAppBar extends SliverPersistentHeaderDelegate {
@@ -9,9 +10,9 @@ class PersistenseAppBar extends SliverPersistentHeaderDelegate {
   final double minExtent;
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    print(shrinkOffset);
+    print(stretchConfiguration?.onStretchTrigger);
+    titleOpacity(shrinkOffset);
 
-    // TODO: implement build
     return Container(
       height: maxExtent,
       padding: const EdgeInsets.all(20),
@@ -21,6 +22,7 @@ class PersistenseAppBar extends SliverPersistentHeaderDelegate {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          CircleAvatar(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: min(shrinkOffset, minExtent)),
             child: const Text(
@@ -30,8 +32,11 @@ class PersistenseAppBar extends SliverPersistentHeaderDelegate {
           ),
           Visibility(
             visible: shrinkOffset < minExtent,
-            child: Opacity(
-                opacity: shrinkOffset / 100, child: MyButton(color: Colors.red, icon: Icons.add, title: 'Add Money')),
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 100),
+              opacity: titleOpacity(shrinkOffset),
+              child: MyButton(color: Colors.red, icon: Icons.add, title: 'Add Money'),
+            ),
           )
         ],
       ),
@@ -39,12 +44,18 @@ class PersistenseAppBar extends SliverPersistentHeaderDelegate {
   }
 
   double titleOpacity(double shrinkOffSet) {
-    return 1.0 - max(0.0, shrinkOffSet) / minExtent;
+    var oppacity = 1.0 - max(0.0, shrinkOffSet) / minExtent;
+    if (oppacity < 0) {
+      oppacity = 0;
+    }
+    print("object $oppacity");
+    return oppacity;
   }
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    print('rebuild ${oldDelegate.snapConfiguration}');
     // TODO: implement shouldRebuild
-    return true;
+    return false;
   }
 }
